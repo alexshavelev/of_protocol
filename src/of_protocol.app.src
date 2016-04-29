@@ -5,4 +5,5 @@
    [kernel,
     stdlib,
     lager,
-    eenum]}]}.
+    eenum]},
+    {registered, []}]}.
