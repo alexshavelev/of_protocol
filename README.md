@@ -1,6 +1,8 @@
 OF Protocol Library
 ===================
 
+#WARNING! NOT ORIGINAL LIB
+
 This is an **OpenFlow Protocol** library implemented in Erlang. It was created
 for the purpose of an **OpenFlow software switch** called [LINC][linc-repo], but
 can be used in any Erlang projects requiring supports for this protocol.
