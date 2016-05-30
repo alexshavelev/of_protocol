@@ -33,8 +33,15 @@
 %%%-----------------------------------------------------------------------------
 
 %% @doc Encode Erlang representation to binary.
--spec encode(ofp_message()) -> {ok, binary()} | {error, any()}.
+-spec encode(ofp_message() | {ok, ofp_message()}) -> {ok, binary()} | {error, any()}.
 encode(#ofp_message{version = Version} = Message) ->
+    case ?MOD(Version) of
+        unsupported ->
+            {error, unsupported_version};
+        Module ->
+            Module:encode(Message)
+    end;
+encode({ok, #ofp_message{version = Version} = Message}) ->
     case ?MOD(Version) of
         unsupported ->
             {error, unsupported_version};
