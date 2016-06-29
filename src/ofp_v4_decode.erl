@@ -73,8 +73,13 @@ decode_match_follwed_by_payload(Binary0) ->
     %% length(ofp_match) + PaddingLength = 0 mod 8
     PaddingLength = 8  - (NoPadLength rem 8),
     MatchFieldsLength = NoPadLength - (_HeaderSize = 4),
-    <<MatchFields:MatchFieldsLength/binary, 0:PaddingLength/unit:8,
-      Payload/bitstring>> = Binary1,
+    {MatchFields, Payload} =
+        case PaddingLength =:= 8 of
+            false -> <<MatchFields1:MatchFieldsLength/binary, 0:PaddingLength/unit:8, Payload1/bitstring>> = Binary1,
+                {MatchFields1, Payload1};
+            true -> <<MatchFields1:MatchFieldsLength/binary,Payload1/bitstring>> = Binary1,
+                {MatchFields1, Payload1}
+        end,
     Fields = decode_match_fields(MatchFields),
     {#ofp_match{fields = Fields}, Payload}.
 
