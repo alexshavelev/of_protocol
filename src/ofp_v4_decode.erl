@@ -93,7 +93,12 @@ decode_match_fields(<<>>, Fields) ->
     lists:reverse(Fields);
 decode_match_fields(Binary, Fields) ->
     {Field, Rest} = decode_match_field(Binary),
-    decode_match_fields(Rest, [Field | Fields]).
+    NewFields = 
+        case Field of
+            [] -> Fields;
+            _ -> [Field | Fields]
+        end, 
+    decode_match_fields(Rest, NewFields).
 
 %% @doc Decode single match field
 decode_match_field(<<Header:4/bytes, Binary/bytes>>) ->
