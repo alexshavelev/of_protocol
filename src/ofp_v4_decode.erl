@@ -133,7 +133,11 @@ decode_match_field(<<Header:4/bytes, Binary/bytes>>) ->
             end,
             {TLV#ofp_field{class = Class,
                            name = Field,
-                           has_mask = HasMask}, Rest}
+                           has_mask = HasMask}, Rest};
+        _ ->
+            <<Match:Length/bytes, Rest/bytes>> = Binary,
+            lager:error("can'not parse such mathfield class: ~p field: ~p hasmask: ~p len: ~p data:~p ~n", [Class, FieldInt, HasMaskInt, Length, Match]),
+            {[], Rest}
     end.
 
 %% @doc Decode port structure.
