@@ -125,6 +125,7 @@ decode_match_field(<<Header:4/bytes, Binary/bytes>>) ->
                     _ ->
                         {FieldInt, Length * 8}
                 end,
+                lager:error("HasMask: ~p Class: ~p Field: ~p Bitlen: ~p Len: ~p~n", [HasMask, Class, Field, BitLength, Length]),
             case HasMask of
                 false ->
                     <<Value:Length/bytes, Rest/bytes>> = Binary,
