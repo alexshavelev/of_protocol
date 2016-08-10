@@ -79,7 +79,19 @@ decode_match_follwed_by_payload(Binary0) ->
             false -> <<MatchFields1:MatchFieldsLength/binary, 0:PaddingLength/unit:8, Payload1/bitstring>> = Binary1,
                 {MatchFields1, Payload1};
             true -> <<MatchFields1:MatchFieldsLength/binary,Payload1/bitstring>> = Binary1,
-                {MatchFields1, Payload1}
+                %%                {MatchFields1, Payload1}
+                %% fix for juniper!!!!
+                %% fix
+                %% fix
+                {MatchFields2, Payload2} =
+                case byte_size(MatchFields1) of
+                    4 ->
+                        <<MatchFieldsTemp:4/bytes, PayloadTemp/bitstring>> = Payload1,
+                        {<<MatchFields1/bytes, MatchFieldsTemp/bytes>>, PayloadTemp};
+                    _ ->
+                        {MatchFields1, Payload1}
+                end,
+                {MatchFields2, Payload2}
         end,
     Fields = decode_match_fields(MatchFields),
     {#ofp_match{fields = Fields}, Payload}.
