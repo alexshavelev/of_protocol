@@ -19,6 +19,8 @@
          get_enum_value/3,
          encode_list/3]).
 
+-include("ofp_logger.hrl").
+
 %%%-----------------------------------------------------------------------------
 %%% Helper functions
 %%%-----------------------------------------------------------------------------
@@ -136,6 +138,7 @@ encode_list(Encoder, [Struct | Rest], Binaries) ->
 -spec binary_to_flags(atom(), atom(), integer(), integer(), [atom()]) ->
                              [atom()].
 binary_to_flags(EnumMod, Type, Integer, Bit, Flags) when Bit >= 0 ->
+    ?INFO("enumMod:~p type:~p integer:~p bit:~p flags:~p~n", [EnumMod, Type, Integer, Bit, Flags]),
     case 0 /= (Integer band (1 bsl Bit)) of
         true ->
             Flag = experimenter_bit(EnumMod, Type, Bit),
