@@ -583,3 +583,7 @@ mk_action({experimenter, Exp, Data}) ->
   #ofp_action_experimenter{experimenter = Exp,
     data = Data}.
 
+reverse(B) ->
+  S = size(B)*8,
+  <<X:S/integer-little>>=B,
+  <<X:S/integer-big>>

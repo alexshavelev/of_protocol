@@ -1019,7 +1019,7 @@ decode_body(features_request, _) ->
 decode_body(features_reply, Binary) ->
   <<DataPathID:16, DataPathMac:48/bits, NBuffers:32,
     NTables:8, AuxId:8, _Pad:16, CapaBin:32/bits, _Pad:32>> = Binary,
-  Capabilities = binary_to_flags(capabilities, CapaBin),
+  Capabilities = binary_to_flags(capabilities, ofp_v6_utils:reverse(CapaBin)),
   #ofp_features_reply{datapath_mac = DataPathMac,
     datapath_id = DataPathID, n_buffers = NBuffers,
     n_tables = NTables, auxiliary_id = AuxId,
