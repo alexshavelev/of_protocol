@@ -586,4 +586,4 @@ mk_action({experimenter, Exp, Data}) ->
 reverse(B) ->
   S = size(B)*8,
   <<X:S/integer-little>>=B,
-  <<X:S/integer-big>>
+  <<X:S/integer-big>>.
