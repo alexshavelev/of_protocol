@@ -10,7 +10,7 @@
 -author("alex_shavelev").
 
 %% API
--module(ofp_v6_utils).
+
 
 -compile(export_all).
 
