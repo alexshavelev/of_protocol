@@ -247,7 +247,9 @@
   group_stats,
   {ip_reasm, 5},
   queue_stats,
-  {port_blocked, 8}]}).
+  {port_blocked, 8}],
+  support_bundles,
+  flow_monitoring}).
 
 %% Switch Configuration --------------------------------------------------------
 

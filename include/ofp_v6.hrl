@@ -587,7 +587,9 @@ ofp_error_msg()
 | group_stats
 | ip_reasm
 | queue_stats
-| port_blocked.
+| port_blocked
+| support_bundles
+| flow_monitoring.
 
 -record(ofp_features_reply, {
   datapath_mac :: binary(),
