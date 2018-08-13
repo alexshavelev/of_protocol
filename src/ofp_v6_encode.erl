@@ -34,10 +34,12 @@
 %% @private
 
 
--export([do/1,
-  encode_struct/1,
-  encode_body/1
-]).
+%%-export([do/1,
+%%  encode_struct/1,
+%%  encode_body/1
+%%]).
+
+-compile([export_all]).
 
 -include("of_protocol.hrl").
 -include("ofp_v6.hrl").
