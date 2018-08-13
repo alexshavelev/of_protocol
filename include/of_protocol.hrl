@@ -24,6 +24,7 @@
                           3 -> ofp_v3;
                           4 -> ofp_v4;
                           5 -> ofp_v5;
+                          6 -> ofp_v6;
                           _ -> unsupported
                       end).
 
