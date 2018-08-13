@@ -34,7 +34,8 @@
 %% @private
 
 
--export([do/1]).
+%%-export([do/1]).
+-compile([export_all]).
 
 -include("of_protocol.hrl").
 -include("ofp_v6.hrl").
