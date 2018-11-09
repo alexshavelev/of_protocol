@@ -747,7 +747,7 @@ encode_body(#ofp_port_desc_request{flags = Flags}) ->
   TypeInt = ofp_v6_enum:to_int(multipart_type, port_desc),
   FlagsBin = flags_to_binary(multipart_request_flags, Flags, 2),
   %% for Opebflow15
-  <<TypeInt:16, FlagsBin/bytes, 0:32, 0:64>>;
+  <<TypeInt:16, FlagsBin/bytes, 0:32, 16#ffffffff:32, 0:32>>;
 encode_body(#ofp_port_desc_reply{flags = Flags, body = Ports}) ->
   TypeInt = ofp_v6_enum:to_int(multipart_type, port_desc),
   FlagsBin = flags_to_binary(multipart_reply_flags, Flags, 2),
