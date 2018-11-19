@@ -641,7 +641,8 @@ encode_body(#ofp_group_mod{command = Command, type = Type,
   TypeInt = ofp_v6_enum:to_int(group_type, Type),
   GroupInt = get_id(group, Group),
   BucketsBin = encode_list(Buckets),
-  <<CommandInt:16, TypeInt:8, 0:8, GroupInt:32, BucketsBin/bytes>>;
+  BucketsLen = byte_size(BucketsBin),
+  <<CommandInt:16, TypeInt:8, 0:8, GroupInt:32, BucketsLen:16, 0:8, BucketsBin/bytes>>;
 encode_body(#ofp_port_mod{port_no = Port, hw_addr = Addr,
   config = Config, mask = Mask,
   properties = Properties}) ->
