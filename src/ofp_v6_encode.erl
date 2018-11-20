@@ -44,6 +44,8 @@
 -include("of_protocol.hrl").
 -include("ofp_v6.hrl").
 
+-define(ANY, 16#ffffffff).
+
 %%------------------------------------------------------------------------------
 %% API functions
 %%------------------------------------------------------------------------------
@@ -287,11 +289,35 @@ encode_struct(#ofp_instruction_experimenter{experimenter = Experimenter,
   Type = ofp_v6_enum:to_int(instruction_type, experimenter),
   Length = ?INSTRUCTION_EXPERIMENTER_SIZE + byte_size(Data),
   <<Type:16, Length:16, Experimenter:32, Data/bytes>>;
-encode_struct(#ofp_bucket{weight = Weight, watch_port = Port,
+encode_struct(#ofp_bucket{weight = Weight, watch_port = Port, bucket_id = BucketId,
   watch_group = Group, actions = Actions}) ->
   ActionsBin = encode_list(Actions),
-  Length = ?BUCKET_SIZE + size(ActionsBin),
-  <<Length:16, Weight:16, Port:32, Group:32, 0:32, ActionsBin/bytes>>;
+
+  OptionsBin =
+    case Weight of
+      1 -> <<>>;
+      _ -> <<0:16, 8:16, Weight:16, 0:16>>
+    end,
+
+  OptionsBin1 =
+    case Port of
+      0 -> OptionsBin;
+      ?ANY -> OptionsBin;
+      _ -> <<OptionsBin/binary, 1:16, 8:16, Port:32>>
+    end,
+
+  OptionsBin2 =
+    case Group of
+      0 -> OptionsBin1;
+      ?ANY -> OptionsBin1;
+      _ -> <<OptionsBin1/binary, 2:16, 8:16, Group:32>>
+    end,
+
+  ActionsSize = size(ActionsBin),
+  Len = 8 + ActionsSize + size(OptionsBin2),
+
+  <<Len:16, ActionsSize:16, BucketId:32, ActionsBin, OptionsBin2>>;
+%%  <<Length:16, Weight:16, Port:32, Group:32, 0:32, ActionsBin/bytes>>;
 encode_struct(#ofp_flow_stats{table_id = Table, duration_sec = Sec,
   duration_nsec = NSec, priority = Priority,
   idle_timeout = Idle, hard_timeout = Hard,

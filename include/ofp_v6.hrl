@@ -721,6 +721,7 @@ ofp_error_msg()
   weight = 1 :: integer(),
   watch_port = 0 :: integer(),
   watch_group = 0 :: integer(),
+  bucket_id = 1 :: integer(),
   actions = [] :: [ofp_action()]
 }).
 -type ofp_bucket() :: #ofp_bucket{}.
