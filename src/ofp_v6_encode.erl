@@ -303,20 +303,20 @@ encode_struct(#ofp_bucket{weight = Weight, watch_port = Port, bucket_id = Bucket
     case Port of
       0 -> OptionsBin;
       ?ANY -> OptionsBin;
-      _ -> <<OptionsBin/binary, 1:16, 8:16, Port:32>>
+      _ -> <<OptionsBin/bytes, 1:16, 8:16, Port:32>>
     end,
 
   OptionsBin2 =
     case Group of
       0 -> OptionsBin1;
       ?ANY -> OptionsBin1;
-      _ -> <<OptionsBin1/binary, 2:16, 8:16, Group:32>>
+      _ -> <<OptionsBin1/bytes, 2:16, 8:16, Group:32>>
     end,
 
   ActionsSize = size(ActionsBin),
   Len = 8 + ActionsSize + size(OptionsBin2),
 
-  <<Len:16, ActionsSize:16, BucketId:32, ActionsBin, OptionsBin2>>;
+  <<Len:16, ActionsSize:16, BucketId:32, ActionsBin/bytes, OptionsBin2/bytes>>;
 %%  <<Length:16, Weight:16, Port:32, Group:32, 0:32, ActionsBin/bytes>>;
 encode_struct(#ofp_flow_stats{table_id = Table, duration_sec = Sec,
   duration_nsec = NSec, priority = Priority,
