@@ -430,13 +430,11 @@ encode_hello_element(_) ->
 encode_hello_elements([], Acc) ->
     list_to_binary(Acc);
 encode_hello_elements([H|Rest], Acc) ->
-  lager:info("remove it. el ~p acc ~p ~n", [H, Acc]),
     encode_hello_elements(Rest, [encode_hello_element(H)|Acc]).
 
 %%% Messages -------------------------------------------------------------------
 
 encode_body(#ofp_hello{elements = Elements}) ->
-  lager:info("remove it. msg ~p ~n", [#ofp_hello{elements = Elements}]),
     encode_hello_elements(Elements, []);
 encode_body(#ofp_error_msg{type = Type, code = Code, data = Data}) ->
     TypeInt = ofp_v4_enum:to_int(error_type, Type),

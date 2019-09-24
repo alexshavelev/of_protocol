@@ -296,7 +296,6 @@ encode_struct(#ofp_group_desc_stats{type = Type, group_id = Group,
 %%% Messages -------------------------------------------------------------------
 
 encode_body(#ofp_hello{}) ->
-    lager:info("remove it. msg ~p stack ~n", [#ofp_hello{}, erlang:get_stacktrace()]),
     <<>>;
 encode_body(#ofp_error_msg{type = Type, code = Code, data = Data}) ->
     TypeInt = ofp_v3_enum:to_int(error_type, Type),
